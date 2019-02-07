@@ -58,6 +58,11 @@ before_script:
   - echo yes | pecl install gnupg
   - gpg --import config/gpg/unsecure_private.key
 
+before_install:
+  - sh -c "if [ '$DB' = 'postgresql' ]; then sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf; fi"
+  - sh -c "if [ '$DB' = 'postgresql' ]; then sudo service postgresql restart; fi"
+  - sh -c "if [ '$DB' = 'postgresql' ]; then sleep 1; fi"
+
 script:
   - if [[ $PHPCS = 1 ]]; then composer cs-check; fi
   - if [[ $PHPUNIT = 1 && $COVERAGE != 1 ]]; then vendor/bin/phpunit; fi
