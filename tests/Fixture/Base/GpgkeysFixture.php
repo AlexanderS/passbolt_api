@@ -1,6 +1,7 @@
 <?php
 namespace App\Test\Fixture\Base;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
@@ -11,45 +12,44 @@ class GpgkeysFixture extends TestFixture
 {
 
     /**
-     * Fields
-     *
-     * @var array
-     */
-    // @codingStandardsIgnoreStart
-    public $fields = [
-        'id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'user_id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'armored_key' => ['type' => 'text', 'length' => null, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
-        'bits' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => '2048', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
-        'uid' => ['type' => 'string', 'length' => 128, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'key_id' => ['type' => 'string', 'length' => 8, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'fingerprint' => ['type' => 'string', 'length' => 51, 'null' => false, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'type' => ['type' => 'string', 'length' => 16, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
-        'expires' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'key_created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'deleted' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
-        'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        '_indexes' => [
-            'fingerprint' => ['type' => 'index', 'columns' => ['fingerprint'], 'length' => []],
-        ],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-        ],
-        '_options' => [
-            'engine' => 'InnoDB',
-            'collation' => 'utf8mb4_unicode_ci'
-        ],
-    ];
-    // @codingStandardsIgnoreEnd
-
-    /**
      * Init method
      *
      * @return void
      */
     public function init()
     {
+        $config = ConnectionManager::get($this->connection())->config();
+        $collation = 'utf8mb4_unicode_ci';
+        if (isset($config['collation'])) {
+            $collation = $config['collation'];
+        }
+
+        $this->fields = [
+            'id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            'user_id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            'armored_key' => ['type' => 'text', 'length' => null, 'null' => false, 'default' => null, 'collate' => $collation, 'comment' => '', 'precision' => null],
+            'bits' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => '2048', 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+            'uid' => ['type' => 'string', 'length' => 128, 'null' => false, 'default' => null, 'collate' => $collation, 'comment' => '', 'precision' => null, 'fixed' => null],
+            'key_id' => ['type' => 'string', 'length' => 8, 'null' => false, 'default' => null, 'collate' => $collation, 'comment' => '', 'precision' => null, 'fixed' => null],
+            'fingerprint' => ['type' => 'string', 'length' => 51, 'null' => false, 'default' => null, 'collate' => $collation, 'comment' => '', 'precision' => null, 'fixed' => null],
+            'type' => ['type' => 'string', 'length' => 16, 'null' => true, 'default' => null, 'collate' => $collation, 'comment' => '', 'precision' => null, 'fixed' => null],
+            'expires' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+            'key_created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+            'deleted' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
+            'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            'modified' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            '_indexes' => [
+                'fingerprint' => ['type' => 'index', 'columns' => ['fingerprint'], 'length' => []],
+            ],
+            '_constraints' => [
+                'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            ],
+            '_options' => [
+                'engine' => 'InnoDB',
+                'collation' => $collation
+            ],
+        ];
+
         $this->records = [
             [
                 'id' => '0239c721-8b7d-59fc-9bff-69e75aff349c',

@@ -1,6 +1,7 @@
 <?php
 namespace App\Test\Fixture\Alt0;
 
+use Cake\Datasource\ConnectionManager;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
@@ -11,39 +12,38 @@ class GroupsUsersFixture extends TestFixture
 {
 
     /**
-     * Fields
-     *
-     * @var array
-     */
-    // @codingStandardsIgnoreStart
-    public $fields = [
-        'id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        'group_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'user_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
-        'is_admin' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
-        'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
-        '_indexes' => [
-            'user_id' => ['type' => 'index', 'columns' => ['user_id', 'group_id'], 'length' => []],
-            'group_id' => ['type' => 'index', 'columns' => ['group_id'], 'length' => []],
-            'user_id_2' => ['type' => 'index', 'columns' => ['user_id'], 'length' => []],
-        ],
-        '_constraints' => [
-            'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
-        ],
-        '_options' => [
-            'engine' => 'InnoDB',
-            'collation' => 'utf8mb4_unicode_ci'
-        ],
-    ];
-    // @codingStandardsIgnoreEnd
-
-    /**
      * Init method
      *
      * @return void
      */
     public function init()
     {
+        $config = ConnectionManager::get($this->connection())->config();
+        $collation = 'utf8mb4_unicode_ci';
+        if (isset($config['collation'])) {
+            $collation = $config['collation'];
+        }
+
+        $this->fields = [
+            'id' => ['type' => 'uuid', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            'group_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+            'user_id' => ['type' => 'uuid', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+            'is_admin' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
+            'created' => ['type' => 'datetime', 'length' => null, 'null' => false, 'default' => null, 'comment' => '', 'precision' => null],
+            '_indexes' => [
+                'user_id' => ['type' => 'index', 'columns' => ['user_id', 'group_id'], 'length' => []],
+                'group_id' => ['type' => 'index', 'columns' => ['group_id'], 'length' => []],
+                'user_id_2' => ['type' => 'index', 'columns' => ['user_id'], 'length' => []],
+            ],
+            '_constraints' => [
+                'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            ],
+            '_options' => [
+                'engine' => 'InnoDB',
+                'collation' => $collation
+            ],
+        ];
+
         $this->records = [
             [
                 'id' => '04e7d8bc-056a-5e4f-b857-4ee179c39bf4',
