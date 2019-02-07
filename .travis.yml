@@ -123,14 +123,6 @@ matrix:
       addons: *php7_addon
 
   allow_failures:
-    # PHP 7.0 - POSTGRESQL 9.2
-    - php: 7.0
-      env: PHPUNIT=1 DB=postgresql DB_VERSION=9.2 DATASOURCES_TEST_DRIVER=Postgres DATASOURCES_TEST_USERNAME=postgres DATASOURCES_TEST_PORT=5432
-
-    # PHP 7.0 - POSTGRESQL 9.4
-    - php: 7.0
-      env: PHPUNIT=1 DB=postgresql DB_VERSION=9.4 DATASOURCES_TEST_DRIVER=Postgres DATASOURCES_TEST_USERNAME=postgres DATASOURCES_TEST_PORT=5432
-
     # PHP 7.3 - MYSQL 5.6
     - php: 7.3
       env: PHPUNIT=1 DB=mysql DB_VERSION=5.6
