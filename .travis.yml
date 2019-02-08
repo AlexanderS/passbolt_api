@@ -65,7 +65,7 @@ before_install:
 
 script:
   - if [[ $PHPCS = 1 ]]; then composer cs-check; fi
-  - if [[ $PHPUNIT = 1 && $COVERAGE != 1 ]]; then vendor/bin/phpunit; fi
+  - if [[ $PHPUNIT = 1 && $COVERAGE != 1 ]]; then vendor/bin/phpunit --debug; fi
   - if [[ $PHPUNIT = 1 && $COVERAGE = 1 ]] ; then vendor/bin/phpunit --coverage-clover build/logs/clover.xml; fi
 
 after_success:
